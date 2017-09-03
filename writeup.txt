@@ -1,0 +1,57 @@
+Write-up
+
+PID Project
+--------------------------------------------------------------------------------------------------------------
+Reference QnA video: https://www.youtube.com/watch?v=YamBuzDjrs8&index=4&list=PLAwxTw4SYaPnfR7TzRZN-uxlxGbqxhtm2
+
+--------------------------------------------------------------------------------------------------------------
+
+PID.cpp
+
+Init:
+No change in implementation as discussed in reference.
+
+Update Error:
+No change in implementation as discussed in reference as well as Lesson16/chapter 12:
+diff_cte = cte - prev_cte
+prev_cte = cte
+int_cte += cte
+
+Total Error:
+I changed the implementation of this function from the reference provided based on Lesson16/chapter 12:
+steer = -tau_p * cte - tau_d * diff_cte - tau_i * int_cte
+Also the discussion here: https://discussions.udacity.com/t/trying-to-understand-the-interaction-of-pid-and-the-car/337260/2
+
+--------------------------------------------------------------------------------------------------------------
+
+main.cpp
+
+No change in teh implementation as discussed in the classroom/reference.
+
+Selecting the values of Kp/Ki/Kd:
+I tried playing with these values manually and tweaked them one by one.
+Below is the explaination.
+
+Kp: (I had Ki and Kd set to 0)
+	- This defines how hard do we want to steer back to the center of the road.
+	- -1.0 : The vehicle hard turn to the right as soon as the drive begins.
+	- -0.5/-0.1: The vehicle eventually turns to the right of the track.
+	- Hence negative Kp may not be the right value.
+	- Started with positive, setting to +0.2
+	- The vechile stayed at the center for most of the time, but oscillates a lot.
+	- Keeping this to 0.2 for now.
+
+Ki: (kept Kp to 0.2, Kd to 0)
+	- Did not change this. 
+	- Keeping to 0.
+
+Kd: (kept Kp to 0.2, Ki to 0)
+	- Differential or derivative term helps avoid oscillation.
+	- With positive values 3+ I saw the car stayed in the track most of the time, and never left the track.
+	- I find the value of 8 doing pretty good job.
+	
+So my selection is 0.2, 0 , 8
+
+Please pass these arguments to the program while executing it.
+
+
